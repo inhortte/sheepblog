@@ -1,0 +1,41 @@
+!!! XML
+!!!
+%html
+  %head
+    %title Sheep Blog
+    %link{:type => "text/css", :rel => "stylesheet", :href => "/sheepblog.css"}
+    %link{:type => "text/css", :rel => "stylesheet", :href => "/blueprint/screens.css", :media => "screen"}
+    %script{:type => "text/javascript", :src => "/javascript/jquery.js"}
+    %script{:type => "text/javascript", :src => "/javascript/jquery.timers-1.2.js"}
+    %script{:type => "text/javascript", :src => "/javascript/sheepblog.js"}
+      
+  %body
+    .container
+      #main.span-20
+        #header.round
+          #pagetitle{:class => "round"}
+            %img.round{:src => '/images/sheep.gif'}
+          #mainmenu{:class => "round"}
+            %a{:href => "/list"}
+              List
+            |
+            - if session[:id]
+              %a{:href => "/new"}
+                New
+              |
+              %a{:href => "/logout"}
+                Logout
+            - else
+              %a{:href => "/login"}
+                Login
+
+          %br.clear
+    
+        #hlavni
+          %p.notice
+            = flash[:notice] if !flash[:notice].nil?
+
+          %p
+            = yield
+
+          %br.clear

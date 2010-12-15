@@ -11,6 +11,11 @@ DataMapper.setup(:default, 'mysql://localhost/sheepblog')
 
 helpers Sinatra::CommonHelper
 
+get '/sheepblog.css' do
+  headers 'Content-Type' => 'text/css; charset=utf-8'
+  sass :"sass/sheepblog"
+end
+
 get '/' do
   redirect '/list'
 end
@@ -25,4 +30,13 @@ post '/login' do
   else
     redirect_with_message '/login', 'That did not work, vole.'
   end
+end
+
+get '/logout' do
+  session.clear
+  redirect '/'
+end
+
+get '/list' do
+  haml :list
 end

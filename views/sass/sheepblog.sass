@@ -1,0 +1,65 @@
+$fontFamily: "verdana, arial, helvetica, sans-serif"
+$fontSize: 16px
+$lineHeight: 20px
+$bodyBackgroundColor: #cff
+$bodyTextColor: #333
+$headerBackgroundColor: #fff
+$mainBackgroundColor: #ccc
+$mainTextColor: #000
+$mainWidth: 800px
+$linkColor: #09c
+
+body
+  :background
+    :color $bodyBackgroundColor
+  :color $bodyTextColor
+  :font
+    :family $fontFamily
+    :size $fontSize
+  :line-height $lineHeight
+
+#main
+  :width $mainWidth
+  :margin
+    :left auto
+    :right auto
+    :bottom 20px
+    :top 20px
+
+#header
+  :padding
+    :top 20px
+    :left 50px
+    :right 50px
+    :bottom 20px
+
+  img
+    :padding 10px
+    :background
+      :color $headerBackgroundColor
+
+  #pagetitle
+    :float left
+
+  #mainmenu
+    :padding 10px
+    :font
+      :size smaller
+    :background
+      :color $headerBackgroundColor
+    :float right
+
+.clear
+  :clear both
+
+a
+  :color $linkColor
+  :text-decoration none
+
+  &:hover
+    :text-decoration underline
+
+.round
+  -moz-border-radius: 10px
+  -webkit-border-radius: 10px
+  :border-radius 10px
