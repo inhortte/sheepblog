@@ -20,7 +20,7 @@ class User
   validates_confirmation_of :password
 
   def has_password?(passwd)
-    self.password == encrypt(passwd)
+    self.encrypted_password == encrypt(passwd)
   end
 
   before :save, :encrypt_password

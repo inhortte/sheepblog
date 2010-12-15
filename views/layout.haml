@@ -3,8 +3,8 @@
 %html
   %head
     %title Sheep Blog
+    %link{:type => "text/css", :rel => "stylesheet", :href => "/blueprint/screen.css", :media => "screen"}
     %link{:type => "text/css", :rel => "stylesheet", :href => "/sheepblog.css"}
-    %link{:type => "text/css", :rel => "stylesheet", :href => "/blueprint/screens.css", :media => "screen"}
     %script{:type => "text/javascript", :src => "/javascript/jquery.js"}
     %script{:type => "text/javascript", :src => "/javascript/jquery.timers-1.2.js"}
     %script{:type => "text/javascript", :src => "/javascript/sheepblog.js"}
@@ -19,7 +19,7 @@
             %a{:href => "/list"}
               List
             |
-            - if session[:id]
+            - if get_user
               %a{:href => "/new"}
                 New
               |
@@ -31,10 +31,14 @@
 
           %br.clear
     
-        #hlavni
-          %p.notice
-            = flash[:notice] if !flash[:notice].nil?
-
+        #sidebar.span-4
+          %p
+            sidebar
+        #hlavni.span-15
+          - if flash[:notice]
+            %p.notice
+              = flash[:notice]
+            
           %p
             = yield
 

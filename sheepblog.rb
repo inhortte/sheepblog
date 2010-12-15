@@ -7,6 +7,14 @@ set :sessions, true
 set :show_exceptions, false
 use Rack::Flash
 
+configure do
+  set :app_file, __FILE__
+  set :root, File.dirname(__FILE__)
+  set :static, :true
+  set :public, Proc.new { File.join(root, "public") }
+  LOGGER = Logger.new("sheepblog.log")
+end
+
 DataMapper.setup(:default, 'mysql://localhost/sheepblog')
 
 helpers Sinatra::CommonHelper
@@ -25,7 +33,10 @@ get '/login' do
 end
 
 post '/login' do
-  if authenticate(params[:username], params[:password])
+  logger.info params[:username] + "   " + params[:password]
+  user = authenticate(params[:username], params[:password])
+  if user
+    session[:id] = user.id
     redirect '/'
   else
     redirect_with_message '/login', 'That did not work, vole.'
@@ -39,4 +50,10 @@ end
 
 get '/list' do
   haml :list
+end
+
+helpers do
+  def logger
+    LOGGER
+  end
 end

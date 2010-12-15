@@ -1,2 +1,14 @@
-%p
-  Login
+%form{:action => "/login", :method => "post"}
+  %p
+    %label{:for => "username"}
+      Username
+    %br
+    %input{:type => "text", :name => "username"}
+  %p
+    %label{:for => "password"}
+      Password
+    %br
+    %input{:type => "password", :name => "password"}
+  %p
+    %input{:type => "submit", :value => "Oouh!"}
+
