@@ -16,6 +16,10 @@ module Sinatra
       flash[:notice] = m
       redirect where
     end
+
+    def format_time(t)
+      t.strftime("%d %b, %Y, %H:%m")
+    end
   end
 
   helpers CommonHelper

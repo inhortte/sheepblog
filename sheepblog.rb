@@ -3,6 +3,8 @@ require 'rubygems'
 %w(common_helper/lib/common_helper.rb).each { |thurk| require thurk }
 %w(user.rb entry.rb).each { |model| require "server_models/lib/#{model}" }
 
+require 'sinatra/reloader' if development?
+
 set :sessions, true
 set :show_exceptions, false
 use Rack::Flash
@@ -52,8 +54,20 @@ get '/list' do
   haml :list
 end
 
+get %r{/turnip/([\d]+)/([\d]+)/([\d]+)} do
+  t = Time.local(params[:captures][0].to_i,
+                 params[:captures][1].to_i,
+                 params[:captures][2].to_i)
+  @entries = Entry.all(:conditions => [ 'created_at > ? and created_at < ?',
+                                        t, t + 86400 ],
+                       :order => [ :created_at.asc ])
+  flash[:notice] = "Nothing is here, vole." if @entries.empty?
+  haml :day
+end
+
 helpers do
   def logger
     LOGGER
   end
 end
+

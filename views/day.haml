@@ -1,0 +1,12 @@
+- @entries.each do |entry|
+  .entryhead
+    .timestamp
+      = format_time entry.created_at
+    .subject
+      = entry.subject
+  %br.clearwide
+  .entrybody
+    = entry.entry
+  %br.clear
+
+    

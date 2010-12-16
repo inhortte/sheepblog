@@ -34,12 +34,12 @@
         #sidebar.span-4
           %p
             sidebar
-        #hlavni.span-15
+        #hlavni.span-15.round
           - if flash[:notice]
-            %p.notice
+            %p.error
               = flash[:notice]
             
-          %p
-            = yield
+              
+          = yield
 
           %br.clear

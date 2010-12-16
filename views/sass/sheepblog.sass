@@ -4,7 +4,7 @@ $lineHeight: 20px
 $bodyBackgroundColor: #cff
 $bodyTextColor: #333
 $headerBackgroundColor: #fff
-$mainBackgroundColor: #ccc
+$hlavniBackgroundColor: #9ff
 $mainTextColor: #000
 $mainWidth: 800px
 $linkColor: #09c
@@ -50,8 +50,24 @@ body
     :float right
 
 #hlavni
-  :padding 10px 10px 10px 10px
-  :border 1px solid #bbb
+  :background
+    :color $hlavniBackgroundColor
+  :padding 10px 20px 10px 20px
+
+  .entryhead
+    :font
+      :size smaller
+      :weight bold
+      
+    .timestamp
+      :float left
+
+    .subject
+      :float right
+
+  .entrybody
+    :margin
+      :top 10px
 
 .clear
   :clear both
