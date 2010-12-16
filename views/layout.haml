@@ -16,8 +16,8 @@
           #pagetitle{:class => "round"}
             %img.round{:src => '/images/sheep.gif'}
           #mainmenu{:class => "round"}
-            %a{:href => "/list"}
-              List
+            %a{:href => "/rutabaga"}
+              Recent
             |
             - if get_user
               %a{:href => "/new"}
@@ -39,7 +39,6 @@
             %p.error
               = flash[:notice]
             
-              
           = yield
 
           %br.clear

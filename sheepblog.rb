@@ -1,6 +1,6 @@
 require 'rubygems'
 %w(sinatra rack-flash datamapper dm-mysql-adapter haml sass logger).each { |gem| require gem }
-%w(common_helper/lib/common_helper.rb).each { |thurk| require thurk }
+%w(sheep_helper/lib/sheep_helper.rb).each { |thurk| require thurk }
 %w(user.rb entry.rb).each { |model| require "server_models/lib/#{model}" }
 
 require 'sinatra/reloader' if development?
@@ -19,7 +19,7 @@ end
 
 DataMapper.setup(:default, 'mysql://localhost/sheepblog')
 
-helpers Sinatra::CommonHelper
+helpers Sinatra::SheepHelper
 
 get '/sheepblog.css' do
   headers 'Content-Type' => 'text/css; charset=utf-8'
@@ -27,7 +27,7 @@ get '/sheepblog.css' do
 end
 
 get '/' do
-  redirect '/list'
+  redirect '/rutabaga'
 end
 
 get '/login' do
@@ -50,8 +50,16 @@ get '/logout' do
   redirect '/'
 end
 
-get '/list' do
-  haml :list
+get '/rutabaga' do
+  haml :recent
+end
+
+get '/new' do
+  if !get_user
+    redirect '/'
+  else
+    haml :new
+  end
 end
 
 get %r{/turnip/([\d]+)/([\d]+)/([\d]+)} do
