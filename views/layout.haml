@@ -31,9 +31,8 @@
 
           %br.clear
     
-        #sidebar.span-4
-          %p
-            sidebar
+        #sidebar.span-3.round
+          = haml_partial '_calendar'
         #hlavni.span-15.round
           - if flash[:notice]
             %p.error

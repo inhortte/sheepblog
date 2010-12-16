@@ -14,6 +14,30 @@ module Sinatra
       end
     end
 
+    def get_previous_entry(e)
+      first_id = Entry.first.id
+      entry = nil
+      unless e.id == first_id
+        (e.id - 1).downto(first_id).each do |id|
+          entry = Entry.get(id)
+          break if entry
+        end
+      end
+      entry
+    end
+
+    def get_next_entry(e)
+      last_id = Entry.last.id
+      entry = nil
+      unless e.id == last_id
+        (e.id + 1).upto(last_id).each do |id|
+          entry = Entry.get(id)
+          break if entry
+        end
+      end
+      entry
+    end
+
     def redirect_with_message(where, m)
       flash[:notice] = m
       redirect where
@@ -23,12 +47,29 @@ module Sinatra
       t.strftime("%d %b, %Y, %H:%m")
     end
 
+    def turnip_link_from_time(e)
+      "/turnip/#{e.created_at.year}/#{e.created_at.month}/#{e.created_at.day}"
+    end
+
+    def haml_partial(name, options = {})
+      item_name = name.to_sym
+      counter_name = "#{name}_counter".to_sym
+      if collection = options.delete(:collection)
+        collection.enum_for(:each_with_index).collect do |item,index|
+          haml_partial name, options.merge(:locals => {item_name => item, counter_name => index+1})
+        end.join
+      elsif object = options.delete(:object)
+        haml_partial name, options.merge(:locals => {item_name => object, counter_name => nil})
+      else
+        haml "#{name}".to_sym, options.merge(:layout => false)
+      end
+    end
+
     def get_date_hash
       Entry.all(:order => :created_at.asc).inject({}) do |es, e|
         year = e.created_at.year
         month = e.created_at.month
         day = e.created_at.day
-        puts es.inspect
         if es[year]
           if es[year][month]
             if es[year][month][day]

@@ -21,6 +21,14 @@ DataMapper.setup(:default, 'mysql://localhost/sheepblog')
 
 helpers Sinatra::SheepHelper
 
+before do
+  if request.path =~ /(turnip|rutabaga|new|login)/
+    @date_hash = get_date_hash
+  else
+    @date_hash = {}
+  end
+end
+
 get '/sheepblog.css' do
   headers 'Content-Type' => 'text/css; charset=utf-8'
   sass :"sass/sheepblog"
@@ -70,6 +78,10 @@ get %r{/turnip/([\d]+)/([\d]+)/([\d]+)} do
                                         t, t + 86400 ],
                        :order => [ :created_at.asc ])
   flash[:notice] = "Nothing is here, vole." if @entries.empty?
+  if !@entries.empty?
+    @previous = get_previous_entry(@entries.first)
+    @next     = get_next_entry(@entries.last)
+  end
   haml :day
 end
 

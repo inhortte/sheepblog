@@ -8,5 +8,21 @@
   .entrybody
     = entry.entry
   %br.clear
+  
+%br.clear
+
+.entrynav
+  - if @previous
+    .previous
+      %a{:href => "#{turnip_link_from_time(@previous)}"}
+        &lt;
+        = format_time @previous.created_at if @previous
+  - if @next
+    .next
+      %a{:href => "#{turnip_link_from_time(@next)}"}
+        = format_time @next.created_at if @next
+        &gt;
+
+%br.clear
 
     
