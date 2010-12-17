@@ -1,5 +1,7 @@
 $(document).ready(function() {
     $("li[id^='ent'] > a").click(function() {
+	var li_id = $(this).parent().attr("id").substr(3);
+
 	$("#sidebar > ul > li > ul > li").each(function() {
 	    $(this).removeClass('block');
 	    $(this).addClass('none');
@@ -8,7 +10,6 @@ $(document).ready(function() {
 		$(this).addClass('none');
 	    });
 	});
-	var li_id = $(this).parent().attr("id").substr(3);
 
 	// A year has been clicked.
 	if(li_id.length == 4) {
