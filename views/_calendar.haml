@@ -1,16 +1,16 @@
 %ul
   - @date_hash.keys.sort.each do |year|
-    %li{:id => "ent#{year}"}
+    %li.block{:id => "ent#{year}"}
       %a{:href => "#"}
         = year
       %ul
         - @date_hash[year].keys.sort.each do |month|
-          %li{:id => "ent#{year}#{"%02d" % month}"}
+          %li.none{:id => "ent#{year}#{"%02d" % month}"}
             %a{:href => "#"}
               = Date.parse(year.to_s + '-' + month.to_s + "-1").strftime("%b")
             %ul
               - @date_hash[year][month].keys.sort.each do |day|
-                %li{:id => "ent#{year}#{"%02d" % month}#{"%02d" % day}"}
+                %li.none{:id => "ent#{year}#{"%02d" % month}#{"%02d" % day}"}
                   %a{:href => "/turnip/#{year}/#{month}/#{day}"}
                     = day
 
