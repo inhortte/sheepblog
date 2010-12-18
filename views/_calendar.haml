@@ -11,7 +11,7 @@
             %ul
               - @date_hash[year][month].keys.sort.each do |day|
                 %li.none
-                  %a{:href => "/turnip/#{year}/#{month}/#{day}"}
+                  %a{:href => "#", :id => "day#{year}#{"%02d" % month}#{"%02d" % day}"}
                     = day
 
 

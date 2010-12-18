@@ -14,15 +14,18 @@
 .entrynav
   - if @previous
     .previous
-      %a{:href => "#{turnip_link_from_time(@previous)}"}
+      %a{:href => "#", :id => "#{day_id(@previous)}"}
         &lt;
         = format_time @previous.created_at if @previous
   - if @next
     .next
-      %a{:href => "#{turnip_link_from_time(@next)}"}
+      %a{:href => "#", :id => "#{day_id(@next)}"}
         = format_time @next.created_at if @next
         &gt;
 
 %br.clear
+
+%script
+  ajax_hovno();
 
     

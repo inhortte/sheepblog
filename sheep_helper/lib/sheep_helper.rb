@@ -47,8 +47,12 @@ module Sinatra
       t.strftime("%d %b, %Y, %H:%m")
     end
 
-    def turnip_link_from_time(e)
-      "/turnip/#{e.created_at.year}/#{e.created_at.month}/#{e.created_at.day}"
+    def turnip_link_from_time(e, prefix = 'turnip')
+      "/#{prefix}/#{e.created_at.year}/#{e.created_at.month}/#{e.created_at.day}"
+    end
+
+    def day_id(e, prefix = 'day')
+      "#{prefix}#{e.created_at.year}#{"%02d" % e.created_at.month}#{"%02d" % e.created_at.day}"
     end
 
     def haml_partial(name, options = {})

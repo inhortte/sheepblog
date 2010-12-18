@@ -70,10 +70,10 @@ get '/new' do
   end
 end
 
-get %r{/turnip/([\d]+)/([\d]+)/([\d]+)} do
-  t = Time.local(params[:captures][0].to_i,
-                 params[:captures][1].to_i,
-                 params[:captures][2].to_i)
+get %r{/(ajax|turnip)/([\d]+)/([\d]+)/([\d]+)} do
+  t = Time.local(params[:captures][1].to_i,
+                 params[:captures][2].to_i,
+                 params[:captures][3].to_i)
   @entries = Entry.all(:conditions => [ 'created_at > ? and created_at < ?',
                                         t, t + 86400 ],
                        :order => [ :created_at.asc ])
@@ -82,7 +82,12 @@ get %r{/turnip/([\d]+)/([\d]+)/([\d]+)} do
     @previous = get_previous_entry(@entries.first)
     @next     = get_next_entry(@entries.last)
   end
-  haml :day
+  
+  if(params[:captures][0] == 'ajax')
+    haml :day, :layout => false
+  else
+    haml :day
+  end
 end
 
 helpers do
