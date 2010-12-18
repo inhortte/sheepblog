@@ -1,2 +1,19 @@
-%p
-  New
+%form{:action => '/new', :method => 'post'}
+  %p
+    %label{:for => 'subject'}
+      Subject
+    %br
+    %input{:type => 'text', :name => 'subject', :size => 60}
+  %p
+    %label{:for => 'entry'}
+      Entry
+    %br
+    %textarea{:rows => 20, :cols => 100, :name => 'entry'}
+  %p
+    %label{:for => 'arbitrary_date'}
+      Arbitrary Date (yyyy/mm/dd)
+    %br
+    %input{:type => 'text', :name => 'arbitrary_date'}
+  %p
+    %input{:type => 'submit', :value => 'Oouh!'}
+

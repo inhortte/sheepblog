@@ -47,6 +47,10 @@ module Sinatra
       t.strftime("%d %b, %Y, %H:%m")
     end
 
+    def mysql_time(t)
+      t.strftime("%Y-%m-%d %H:%M:%S")
+    end
+
     def turnip_link_from_time(e, prefix = 'turnip')
       "/#{prefix}/#{e.created_at.year}/#{e.created_at.month}/#{e.created_at.day}"
     end

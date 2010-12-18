@@ -64,9 +64,35 @@ end
 
 get '/new' do
   if !get_user
-    redirect '/'
+    redirect_with_message '/login', 'You are not logged in, vole.'
   else
     haml :new
+  end
+end
+
+post '/new' do
+  if !get_user
+    redirect_with_message '/login', 'You are not loged in, vole.'
+  else
+    m = %r{^\s*(\d\d\d\d)[-/]?(\d{1,2})[-/]?(\d{1,2})\s*$}.match(params[:arbitrary_date])
+    timestamp = if m
+                  mysql_time Time.local(m[1], m[2], m[3], 23, 59, 59) rescue mbysql_time(Time.now)
+                end
+    entry = Entry.new(:subject => params[:subject],
+                      :entry => params[:entry])
+    if entry.save
+      if timestamp
+        entry.created_at = timestamp
+        entry.save
+      end
+      redirect turnip_link_from_time(entry)
+    else
+      flash[:notice] = ''
+      entry.errors.each { |error|
+        flash[:notice] += error[0]
+      }
+      redirect '/new'
+    end
   end
 end
 
