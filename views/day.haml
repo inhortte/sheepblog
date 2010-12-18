@@ -1,4 +1,15 @@
+- if @entries.empty?
+  %p
+    You seem to have deleted everything!
 - @entries.each do |entry|
+  - if get_user
+    .entrycontrols.round
+      %a{:href => "#", :id => "del#{entry.id};#{day_id(entry)[3..-1]}"}
+        Delete
+      |
+      %a{:href => "#", :id => "edit#{entry.id}"}
+        Edit
+    %br.clear
   .entryhead
     .timestamp
       = format_time entry.created_at

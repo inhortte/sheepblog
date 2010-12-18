@@ -87,12 +87,22 @@ post '/new' do
       end
       redirect turnip_link_from_time(entry)
     else
-      flash[:notice] = ''
+      flash[:notice] = 'Problems:'
       entry.errors.each { |error|
-        flash[:notice] += error[0]
+        flash[:notice] += "<br />" + error[0]
       }
       redirect '/new'
     end
+  end
+end
+
+# Called via Ajax. The return value is not used.
+get '/smazat/:id' do
+  if !get_user
+    redirect_with_message '/login', 'You are not logged in, vole.'
+  else
+    e = Entry.get(params[:id])
+    e.destroy if e
   end
 end
 
@@ -103,7 +113,7 @@ get %r{/(ajax|turnip)/([\d]+)/([\d]+)/([\d]+)} do
   @entries = Entry.all(:conditions => [ 'created_at > ? and created_at < ?',
                                         t, t + 86400 ],
                        :order => [ :created_at.asc ])
-  flash[:notice] = "Nothing is here, vole." if @entries.empty?
+  flash[:notice] = "Nothing is here, vole." if @entries.empty? && params[:captures][0] == 'turnip'
   if !@entries.empty?
     @previous = get_previous_entry(@entries.first)
     @next     = get_next_entry(@entries.last)

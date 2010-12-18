@@ -3,9 +3,14 @@ function li_to_block(li) {
     $(li).addClass('block');
 }
 
+// Here, just the date portion is passed, without the initial tag.
+function ajax_date_path(d) {
+    return("/ajax/" + d.substr(0,4) + "/" + d.substr(4,2) + "/" + d.substr(6,2));
+}
+
 function ajax_hovno() {
     $('a[id^="day"]').click(function() {
-	var path = "/ajax/" + this.id.substr(3,4) + "/" + this.id.substr(7,2) + "/" + this.id.substr(9,2);
+	var path = ajax_date_path(this.id.substr(3));
 	//	$("#content").load(path);
 	$.ajax({
 	    url: path,
@@ -14,6 +19,18 @@ function ajax_hovno() {
 		$("#content").html(html);
 	    }
 	});
+    });
+    $('a[id^="del"]').click(function() {
+	if(confirm("Are you sure, vole?")) {
+	    var delete_path = '/smazat/' + this.id.substr(3,this.id.indexOf(';') - 3);
+	    var refresh_path = ajax_date_path(this.id.substr(this.id.indexOf(';') + 1));
+	    $.ajax({
+		url: delete_path,
+		cache: false,
+		async: false
+	    });
+	    $("#content").load(refresh_path);
+	}
     });
 }
 
