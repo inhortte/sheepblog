@@ -59,6 +59,10 @@ module Sinatra
       "#{prefix}#{e.created_at.year}#{"%02d" % e.created_at.month}#{"%02d" % e.created_at.day}"
     end
 
+    def from_blue_cloth(bc)
+      BlueCloth.new(bc).to_html
+    end
+
     def haml_partial(name, options = {})
       item_name = name.to_sym
       counter_name = "#{name}_counter".to_sym

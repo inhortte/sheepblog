@@ -1,5 +1,5 @@
 require 'rubygems'
-%w(sinatra rack-flash datamapper dm-mysql-adapter haml sass logger).each { |gem| require gem }
+%w(sinatra rack-flash datamapper dm-mysql-adapter haml sass logger bluecloth).each { |gem| require gem }
 %w(sheep_helper/lib/sheep_helper.rb).each { |thurk| require thurk }
 %w(user.rb entry.rb).each { |model| require "server_models/lib/#{model}" }
 
