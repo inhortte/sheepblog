@@ -96,21 +96,71 @@ post '/new' do
   end
 end
 
+get '/upravit/:id' do
+  @entry = Entry.get(params[:id])
+  if !get_user || !@entry
+    "Huh?" # Perhaps do something else, but... well, why, really?
+  else
+    haml :edit, :layout => false
+  end
+end
+
+post '/upravit' do
+  entry = Entry.get(params[:id])
+  if !get_user || !entry
+    "You screwed up, vole."
+  else
+    timestamp = mysql_time Time.parse(params[:arbitrary_date]) rescue mysql_time Time.now
+    if entry.update(:subject => params[:subject],
+                    :entry => params[:entry],
+                    :created_at => timestamp)
+      redirect turnip_link_from_time(entry)
+    else
+      "Huh?"
+#      flash[:notice] = 'Problems:'
+#      entry.errors.each { |error|
+#        flash[:notice] += "<br />" + error[0]
+#      }
+#      redirect '/new'
+    end
+  end
+end
+
 # Called via Ajax. The return value is not used.
 get '/smazat/:id' do
   if !get_user
-    redirect_with_message '/login', 'You are not logged in, vole.'
+    # Do nothing.
   else
     e = Entry.get(params[:id])
     e.destroy if e
   end
 end
 
+# This fetches all entries from the day the id'd entry is from.
+# I am assuming this will only be called by clicking 'revert' and by Ajax.
+get '/zobrazit/:id' do
+  @entry = Entry.get(params[:id])
+  if !@entry
+    "Huh?"
+  else
+    t = Time.parse(@entry.created_at.strftime("%Y-%m-%d"))
+    @entries = Entry.all(:conditions => [ 'created_at >= ? and created_at < ?',
+                                          t, t + 86400 ],
+                         :order => [ :created_at.asc ])
+    if !@entries.empty?
+      @previous = get_previous_entry(@entries.first)
+      @next     = get_next_entry(@entries.last)
+    end
+    haml :day, :layout => false
+  end
+end
+
+# Refactor this and the previous.
 get %r{/(ajax|turnip)/([\d]+)/([\d]+)/([\d]+)} do
   t = Time.local(params[:captures][1].to_i,
                  params[:captures][2].to_i,
                  params[:captures][3].to_i)
-  @entries = Entry.all(:conditions => [ 'created_at > ? and created_at < ?',
+  @entries = Entry.all(:conditions => [ 'created_at >= ? and created_at < ?',
                                         t, t + 86400 ],
                        :order => [ :created_at.asc ])
   flash[:notice] = "Nothing is here, vole." if @entries.empty? && params[:captures][0] == 'turnip'

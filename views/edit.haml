@@ -1,0 +1,26 @@
+.entrycontrols.round
+  %a{:href => "#", :id => "show#{@entry.id}"}
+    Revert
+%br.clear
+%form{:action => '/upravit', :method => 'post'}
+  %input{:type => 'hidden', :name => 'id', :value => "#{@entry.id}"}
+  %p
+    %label{:for => 'subject'}
+      Subject
+    %br
+    %input{:type => 'text', :name => 'subject', :size => 60, :value => "#{@entry.subject}"}
+  %p
+    %label{:for => 'entry'}
+      Entry
+    %br
+    %textarea{:id => "tarea", :rows => 20, :cols => 100, :name => 'entry'}= @entry.entry
+  %p
+    %label{:for => 'arbitrary_date'}
+      Arbitrary Date (yyyy/mm/dd)
+    %br
+    %input{:type => 'text', :name => 'arbitrary_date', :value => "#{mysql_time(@entry.created_at)}"}
+  %p
+    %input{:type => 'submit', :value => 'Oouh!'}
+
+%script
+  ajax_hovno();

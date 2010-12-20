@@ -32,6 +32,20 @@ function ajax_hovno() {
 	    $("#content").load(refresh_path);
 	}
     });
+    $('a[id^="edit"]').click(function() {
+	var id = this.id.substr(4);
+	$.ajax({
+	    url: "/upravit/" + id,
+	    cache: false,
+	    success: function(data) {
+		$("#content").html(data);
+	    }
+	});
+    });
+    $('a[id^="show"]').click(function() {
+	var id = this.id.substr(4);
+	$("#content").load("/zobrazit/" + id);
+    });
 }
 
 $(document).ready(function() {
