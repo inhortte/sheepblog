@@ -14,28 +14,30 @@ module Sinatra
       end
     end
 
-    def get_previous_entry(e)
-      first_id = Entry.first.id
+    def just_date(t)
+      Time.local(t.year, t.month, t.day)
+    end
+
+    # get previous or next entry
+    def get_pn_entry(e, pn = :previous)
+      entries = Entry.all(:order => :created_at.asc)
+      index = entries.index(e)
       entry = nil
-      unless e.id == first_id
-        (e.id - 1).downto(first_id).each do |id|
-          entry = Entry.get(id)
+      unless index == (pn == :previous ? 0 : entries.size - 1)
+        (index.send(pn == :previous ? :- : :+, 1)).send(pn == :previous ? :downto : :upto, pn == :previous ? 0 : entries.size - 1).each do |i|
+          entry = entries[i] if (just_date entries[i].created_at) != (just_date e.created_at)
           break if entry
         end
       end
       entry
     end
 
+    def get_previous_entry(e)
+      get_pn_entry(e, :previous)
+    end
+
     def get_next_entry(e)
-      last_id = Entry.last.id
-      entry = nil
-      unless e.id == last_id
-        (e.id + 1).upto(last_id).each do |id|
-          entry = Entry.get(id)
-          break if entry
-        end
-      end
-      entry
+      get_pn_entry(e, :next)
     end
 
     def redirect_with_message(where, m)
@@ -99,28 +101,6 @@ module Sinatra
           es = es.merge({year => {month => {day => [ e ]}}})
           es
         end
-      end
-    end
-
-    def get_date_hash_absurd
-      1990.upto(Time.now.year).inject({}) do |years, year|
-        years.merge({year => months_of(year)})
-      end
-    end
-
-    private
-
-    def months_of(year)
-      1.upto(12).inject({}) do |months, month|
-        months.merge({month => days_of(year, month)})
-      end
-    end
-
-    def days_of(year, month)
-      last_day_of_the_month = (Date.parse(year.to_s + "-" + (month_to_process + 1).to_s + "-01") - 1).mday() rescue 31
-      1.upto(last_day_of_the_month).inject({}) do |days, day|
-        t = Time.local(year, month, day)
-        days.merge({day => Entry.all(:conditions => ['created_at > ? and created_at < ?', t, t + 86400])})
       end
     end
   end
