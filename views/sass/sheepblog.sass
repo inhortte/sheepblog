@@ -82,6 +82,11 @@ body
       
     .timestamp
       :float left
+      
+      a
+        :font
+          :size 80%
+          :style italic
 
     .subject
       :float right
@@ -89,6 +94,11 @@ body
   .entrybody
     :margin
       :top 10px
+
+    a
+      :font
+        :size 70%
+        :weight bold
       
   .entrynav
     :font
@@ -100,6 +110,28 @@ body
 
     .next
       :float right
+
+  #recenthead
+    :font
+      :size 70%
+
+    #pages
+      :width 70%
+      :float left
+
+      ul
+        li
+          :display inline
+          :padding 0px 10px 0px 0px
+        
+          a
+            :font
+              :weight bold
+
+    #page
+      :float right
+      :font
+        :weight bold
 
 .entrycontrols
   :float right
@@ -121,7 +153,12 @@ a
   &:hover
     :text-decoration underline
 
+pre
+  :font
+    :size 80%
+
 .round
   -moz-border-radius: 10px
   -webkit-border-radius: 10px
   :border-radius 10px
+

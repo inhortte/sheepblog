@@ -59,7 +59,26 @@ get '/logout' do
 end
 
 get '/rutabaga' do
-  haml :recent
+  redirect '/rutabaga/1'
+end
+
+get %r{/(ajax|rutabaga)/([\d]+)} do
+  @page = params[:captures][1].to_i
+  @pages = Entry.count / 10 + (Entry.count % 10 == 10 ? 0 : 1)
+  @entries = Entry.all(:order => :created_at.desc, :limit => @page * 10).to_a[((@page - 1) * 10)..-1]
+  if params[:captures][0] == 'ajax'
+    haml :recent, :layout => false
+  else
+    haml :recent
+  end
+end
+
+get '/expand/:id' do
+  haml :_full_entry, :locals => { :entry => Entry.get(params[:id]) }, :layout => false
+end
+
+get '/contract/:id' do
+  haml :_truncated_entry, :locals => { :entry => Entry.get(params[:id]) }, :layout => false
 end
 
 get '/new' do

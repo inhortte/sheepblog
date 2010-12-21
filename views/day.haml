@@ -1,6 +1,20 @@
 - if @entries.empty?
   %p
     You seem to have deleted everything!
+.entrynav
+  - if @previous
+    .previous
+      %a{:href => "#", :id => "#{day_id(@previous)}"}
+        &lt;
+        = format_time @previous.created_at if @previous
+  - if @next
+    .next
+      %a{:href => "#", :id => "#{day_id(@next)}"}
+        = format_time @next.created_at if @next
+        &gt;
+  - if @previous || @next
+    %br.clear
+    %br.clear
 - @entries.each do |entry|
   - if get_user
     .entrycontrols.round
@@ -20,8 +34,6 @@
     = from_blue_cloth entry.entry
   %br.clear
   
-%br.clear
-
 .entrynav
   - if @previous
     .previous
@@ -33,8 +45,6 @@
       %a{:href => "#", :id => "#{day_id(@next)}"}
         = format_time @next.created_at if @next
         &gt;
-
-%br.clear
 
 %script
   ajax_hovno();

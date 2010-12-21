@@ -19,6 +19,7 @@ function ajax_hovno() {
 		$("#content").html(html);
 	    }
 	});
+	return false;
     });
     $('a[id^="del"]').click(function() {
 	if(confirm("Are you sure, vole?")) {
@@ -31,6 +32,7 @@ function ajax_hovno() {
 	    });
 	    $("#content").load(refresh_path);
 	}
+	return false;
     });
     $('a[id^="edit"]').click(function() {
 	var id = this.id.substr(4);
@@ -41,10 +43,27 @@ function ajax_hovno() {
 		$("#content").html(data);
 	    }
 	});
+	return false;
     });
     $('a[id^="show"]').click(function() {
 	var id = this.id.substr(4);
 	$("#content").load("/zobrazit/" + id);
+	return false;
+    });
+    $('a[id^="page"]').click(function() {
+	var page = this.id.substr(4);
+	$("#content").load("/ajax/" + page);
+	return false;
+    });
+    $('a[id^="expand"]').click(function() {
+	var id = this.id.substr(6);
+	$("#entry" + id).load("/expand/" + id);
+	return false;
+    });
+    $('a[id^="contract"]').click(function() {
+	var id = this.id.substr(8);
+	$("#entry" + id).load("/contract/" + id);
+	return false;
     });
 }
 

@@ -40,6 +40,11 @@ module Sinatra
       get_pn_entry(e, :next)
     end
 
+    def truncated(text)
+      bc = from_blue_cloth(text)
+      bc[0..(bc.size < 200 ? bc.size : 200)] + '...'
+    end
+
     def redirect_with_message(where, m)
       flash[:notice] = m
       redirect where

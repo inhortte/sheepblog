@@ -1,2 +1,43 @@
-%p
-  List
+#recenthead
+  #pages
+    %ul
+      - 1.upto(@pages).each do |p|
+        %li
+          - unless p == @page
+            %a{:href => '#', :id => "page#{p}"}= p
+          - else
+            = p
+
+  #page
+    - if @page != 1
+      %a{:href => '#', :id => "page#{@page - 1}"}
+        &lt; Previous
+      |
+    Page
+    = @page
+    - if @page < @pages
+      |
+      %a{:href => '#', :id => "page#{@page + 1}"}
+        Next &gt;
+
+%br.clear
+%br.clear
+
+#entries
+  - @entries.each do |entry|
+    .entryhead
+      .timestamp
+        = format_time entry.created_at
+        %a{:href => '#', :id => "#{day_id(entry)}"}
+          (go to this day)
+      .subject
+        = entry.subject
+    %br.clearwide
+    %div.entrybody{:id => "entry#{entry.id}"}
+      = haml_partial "_truncated_entry", :locals => { :entry => entry }
+  %br.clear
+  %br.clear
+  
+%script
+  ajax_hovno();
+
