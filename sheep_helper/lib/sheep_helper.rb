@@ -41,8 +41,8 @@ module Sinatra
     end
 
     def truncated(text)
-      bc = from_blue_cloth(text)
-      bc[0..(bc.size < 200 ? bc.size : 200)] + '...'
+      html = from_blue_cloth(text)
+      html[0..(html.size < 271 ? html.size : 271)] + (html.size < 271 ? '' : '...')
     end
 
     def redirect_with_message(where, m)

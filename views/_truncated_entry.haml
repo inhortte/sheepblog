@@ -1,7 +1,9 @@
-= truncated entry.entry
+- trunc = truncated entry.entry
+= trunc
 %br
-%a{:href => "#", :id => "expand#{entry.id}"}
-  expand
+- if trunc[-3..-1] == '...'
+  %a{:href => "#", :id => "expand#{entry.id}"}
+    expand
 
 %script
   ajax_hovno();

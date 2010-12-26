@@ -62,7 +62,7 @@ function ajax_hovno() {
     });
     $('a[id^="page"]').click(function() {
 	var page = this.id.substr(4);
-	$("#content").load("/ajax/" + page);
+	$("#content").load("/parsnip/" + page);
 	return false;
     });
     $('a[id^="expand"]').click(function() {
