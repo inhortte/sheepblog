@@ -62,11 +62,11 @@ get '/rutabaga' do
   redirect '/rutabaga/1'
 end
 
-get %r{/(ajax|rutabaga)/([\d]+)} do
+get %r{/(parsnip|rutabaga)/([\d]+)} do
   @page = params[:captures][1].to_i
   @pages = Entry.count / 10 + (Entry.count % 10 == 10 ? 0 : 1)
   @entries = Entry.all(:order => :created_at.desc, :limit => @page * 10).to_a[((@page - 1) * 10)..-1]
-  if params[:captures][0] == 'ajax'
+  if params[:captures][0] == 'parsnip'
     haml :recent, :layout => false
   else
     haml :recent
@@ -175,7 +175,7 @@ get '/zobrazit/:id' do
 end
 
 # Refactor this and the previous.
-get %r{/(ajax|turnip)/([\d]+)/([\d]+)/([\d]+)} do
+get %r{/(radish|turnip)/([\d]+)/([\d]+)/([\d]+)} do
   t = Time.local(params[:captures][1].to_i,
                  params[:captures][2].to_i,
                  params[:captures][3].to_i)
@@ -188,7 +188,7 @@ get %r{/(ajax|turnip)/([\d]+)/([\d]+)/([\d]+)} do
     @next     = get_next_entry(@entries.last)
   end
   
-  if(params[:captures][0] == 'ajax')
+  if(params[:captures][0] == 'radish')
     haml :day, :layout => false
   else
     haml :day

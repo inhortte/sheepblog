@@ -28,7 +28,7 @@
     .entryhead
       .timestamp
         = format_time entry.created_at
-        %a{:href => '#', :id => "#{day_id(entry)}"}
+        %a{:href => "#", :id => "#{day_id(entry, 'date')}"}
           (go to this day)
       .subject
         = entry.subject

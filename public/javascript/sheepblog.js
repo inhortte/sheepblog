@@ -4,14 +4,24 @@ function li_to_block(li) {
 }
 
 // Here, just the date portion is passed, without the initial tag.
-function ajax_date_path(d) {
-    return("/ajax/" + d.substr(0,4) + "/" + d.substr(4,2) + "/" + d.substr(6,2));
+function ajax_date_path(d, which) {
+    return("/" + which + "/" + d.substr(0,4) + "/" + d.substr(4,2) + "/" + d.substr(6,2));
 }
 
 function ajax_hovno() {
     $('a[id^="day"]').click(function() {
-	var path = ajax_date_path(this.id.substr(3));
-	//	$("#content").load(path);
+	var path = ajax_date_path(this.id.substr(3), 'radish');
+	$.ajax({
+	    url: path,
+	    cache: false,
+	    success: function(html) {
+		$("#content").html(html);
+	    }
+	});
+	return false;
+    });
+    $('a[id^="date"]').click(function() {
+	var path = ajax_date_path(this.id.substr(4), 'radish');
 	$.ajax({
 	    url: path,
 	    cache: false,
