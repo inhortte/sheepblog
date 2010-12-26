@@ -62,6 +62,7 @@ get '/rutabaga' do
   redirect '/rutabaga/1'
 end
 
+# Parsnip are Ajax paths. Rutabagas are normal paths.
 get %r{/(parsnip|rutabaga)/([\d]+)} do
   @page = params[:captures][1].to_i
   @pages = Entry.count / 10 + (Entry.count % 10 == 10 ? 0 : 1)
@@ -175,6 +176,7 @@ get '/zobrazit/:id' do
 end
 
 # Refactor this and the previous.
+# Radishes are Ajax paths. Turnips are normal paths.
 get %r{/(radish|turnip)/([\d]+)/([\d]+)/([\d]+)} do
   t = Time.local(params[:captures][1].to_i,
                  params[:captures][2].to_i,
