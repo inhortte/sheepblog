@@ -29,7 +29,11 @@
       = format_time entry.created_at
     .subject
       = entry.subject
-  %br.clearwide
+    - unless entry.topics.blank?
+      %br.clear
+      .topics
+        = get_topics(entry).map { |t| t.topic.capitalize }.join(', ')
+
   .entrybody
     = from_blue_cloth entry.entry
   %br.clear

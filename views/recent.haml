@@ -32,7 +32,10 @@
           (go to this day)
       .subject
         = entry.subject
-    %br.clearwide
+      - unless entry.topics.blank?
+        .topics.clear
+          = get_topics(entry).map { |t| t.topic.capitalize }.join(', ')
+
     %div.entrybody{:id => "entry#{entry.id}"}
       = haml_partial "_truncated_entry", :locals => { :entry => entry }
   %br.clear

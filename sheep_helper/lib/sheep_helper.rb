@@ -14,6 +14,14 @@ module Sinatra
       end
     end
 
+    def get_all_topics
+      Topic.all(:order => :topic.asc)
+    end
+
+    def get_topics(e)
+      e.topics.sort
+    end
+
     def just_date(t)
       Time.local(t.year, t.month, t.day)
     end

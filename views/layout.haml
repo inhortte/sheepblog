@@ -11,7 +11,7 @@
       
   %body
     .container
-      #main.span-20
+      #main.span-24
         #header.round
           #pagetitle{:class => "round"}
             %img.round{:src => '/images/sheep.gif'}
@@ -31,14 +31,14 @@
 
           %br.clear
     
-        #sidebar.span-3.round
+        #sidebar.span-2.round
           = haml_partial '_calendar'
-        #hlavni.span-15.round
+        #hlavni.span-16.round
           - if flash[:notice]
             %p.error
               = flash[:notice]
             
           #content
             = yield
-
-          %br.clear
+        #topicbar.span-2.round
+          = haml_partial '_topics'

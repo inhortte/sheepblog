@@ -1,13 +1,13 @@
 $fontFamily: Verdana
 $fontSize: 14px
-$lineHeight: 17px
+$lineHeight: 18px
 $bodyBackgroundColor: #cff
 $bodyTextColor: #333
 $headerBackgroundColor: #fff
 $hlavniBackgroundColor: #9ff
 $sidebarBackgroundColor: #9ff
 $mainTextColor: #000
-$mainWidth: 800px
+$mainWidth: 100%
 $linkColor: #09c
 $sidebarLinkColor: #90c
 
@@ -60,6 +60,13 @@ body
     :right 10px
   :padding 10px 20px 10px 20px
 
+  ul
+    :margin 0
+    :padding 0
+    ul
+      :margin
+        :left 20px
+
   li.block
     :display block
     
@@ -68,7 +75,15 @@ body
 
   a
     :color $linkColor
-    
+
+#topicbar
+  :background
+    :color $sidebarBackgroundColor
+  :font
+    :size smaller
+  :margin
+    :left 10px
+  :padding 10px 20px 10px 20px
 
 #hlavni
   :background
