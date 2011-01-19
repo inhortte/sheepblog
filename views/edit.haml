@@ -14,6 +14,10 @@
       Entry
     %br
     %textarea{:id => "tarea", :rows => 20, :cols => 100, :name => 'entry'}= @entry.entry
+  %p.small
+    %strong Topics:
+    %span#entry_topics
+      = haml_partial "_entry_topics", :locals => { :topics => @entry.topics }
   %p
     %label{:for => 'arbitrary_date'}
       Arbitrary Date (yyyy/mm/dd)
@@ -24,3 +28,4 @@
 
 %script
   ajax_hovno();
+  ajax_topics();

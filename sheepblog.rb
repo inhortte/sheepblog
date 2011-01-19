@@ -96,15 +96,19 @@ post '/new' do
   else
     m = %r{^\s*(\d\d\d\d)[-/]?(\d{1,2})[-/]?(\d{1,2})\s*$}.match(params[:arbitrary_date])
     timestamp = if m
-                  mysql_time Time.local(m[1], m[2], m[3], 23, 59, 59) rescue mbysql_time(Time.now)
+                  mysql_time Time.local(m[1], m[2], m[3], 23, 59, 59) rescue mysql_time(Time.now)
                 end
     entry = Entry.new(:subject => params[:subject],
                       :entry => params[:entry])
     if entry.save
       if timestamp
         entry.created_at = timestamp
-        entry.save
       end
+      params['topics'].split(',').each do |t|
+        topic = Topic.first(:topic => t) || Topic.create(:topic => t)
+        entry.topics << topic
+      end
+      entry.save
       redirect turnip_link_from_time(entry)
     else
       flash[:notice] = 'Problems:'
@@ -134,6 +138,11 @@ post '/upravit' do
     if entry.update(:subject => params[:subject],
                     :entry => params[:entry],
                     :created_at => timestamp)
+      entry.topics.intermediaries.destroy!
+      params['topics'].split(',').each do |t|
+        entry.topics << (Topic.first(:topic => t) || Topic.create(:topic => t))
+      end
+      entry.save
       redirect turnip_link_from_time(entry)
     else
       "Huh?"
@@ -195,6 +204,11 @@ get %r{/(radish|turnip)/([\d]+)/([\d]+)/([\d]+)} do
   else
     haml :day
   end
+end
+
+# topic ajax routes
+get '/topic/topicbar/:new_topic_box' do
+  haml :_topics, :locals => { :new_topic_box => (params[:new_topic_box] == 'ano' ? 'yus' : nil) }, :layout => false
 end
 
 helpers do

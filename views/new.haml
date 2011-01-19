@@ -9,6 +9,10 @@
       Entry
     %br
     %textarea{:rows => 20, :cols => 100, :name => 'entry'}
+  %p.small
+    %strong Topics:
+    %span#entry_topics
+      = haml_partial "_entry_topics", :locals => { :topics => [] }
   %p
     %label{:for => 'arbitrary_date'}
       Arbitrary Date (yyyy/mm/dd)

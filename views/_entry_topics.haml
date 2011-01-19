@@ -1,0 +1,7 @@
+%input{:type => 'hidden', :name => 'topics', :value => "#{topics.map { |t| t.topic }.join(',')}"}
+%span
+  - topics.each_index do |i|
+    %a{:href => "#", :id => "rmtopic#{topics[i].topic}"}
+      = topics[i].topic + (i + 1 == topics.size ? '' : ',')
+
+

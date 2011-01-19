@@ -1,0 +1,10 @@
+Topics
+%hr
+- unless new_topic_box.nil?
+  %form#add_new_topic
+    %input{:type => 'text', :size => 10}
+- get_all_topics.each do |topic|
+  %a{:href => "#", :id => "topic#{topic.id}"}
+    = topic.topic.capitalize
+  %br
+%script{:type => "text/javascript", :src => "/javascript/topics.js"}

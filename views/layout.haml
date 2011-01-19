@@ -41,4 +41,4 @@
           #content
             = yield
         #topicbar.span-2.round
-          = haml_partial '_topics'
+          = haml_partial '_topics', :locals => { :new_topic_box => 'ano' }

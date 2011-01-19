@@ -77,6 +77,10 @@ function ajax_hovno() {
     });
 }
 
+function refresh_topic_bar(new_topic_box) {
+    $("#topicbar").load("/topic/topicbar/" + (new_topic_box == 1 ? 'ano' : 'ne'));
+}
+
 $(document).ready(function() {
     // Calendar display block/none.
     $("li[id^='ent'] > a").click(function() {
